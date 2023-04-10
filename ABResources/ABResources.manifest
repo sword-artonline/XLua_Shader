@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 317932862
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: pic_unity
+      Dependencies: {}
