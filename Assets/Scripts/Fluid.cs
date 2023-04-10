@@ -1,7 +1,17 @@
 using UnityEngine;
+using XLua;
 
 namespace MyFluid
 {
+    [CSharpCallLua]
+    struct FluidConfig
+    {
+        public int resolution;
+        public float viscosity;
+        public float force;
+        public float exponent;
+
+    }
     public class Fluid : MonoBehaviour
     {
         [SerializeField] private int _resolution = 512;
@@ -88,8 +98,24 @@ namespace MyFluid
             Graphics.Blit(_init, _colorRT1);
         }
 
+        void ApplyLuaScriptConfig()
+        {
+#if UNITY_EDITOR
+            //In Editor: Config from Inspector 
+#else
+            //Config from Lua Script
+            XLuaEnv.Instance.DoString("require('FluidShader')");
+            LuaTable table = XLuaEnv.Instance.Global;
+            FluidConfig config = table.Get<FluidConfig>("fluid");
+            _resolution = config.resolution;
+            _force = config.force;
+            _exponent = config.exponent;
+#endif
+        }
+
         void Update()
         {
+            ApplyLuaScriptConfig();
             UpdateFluidEffect();
         }
 
