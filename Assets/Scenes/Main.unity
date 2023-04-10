@@ -224,6 +224,6 @@ MonoBehaviour:
   _viscosity: 0.000001
   _force: 300
   _exponent: 200
-  _init: {fileID: 2800000, guid: 6ada17b5761ee6a4084e8046c45417e7, type: 3}
+  _init: {fileID: 0}
   _computeShader: {fileID: 7200000, guid: 537d8f29b9002dd4cb07ceed9dc825b9, type: 3}
   _shader: {fileID: 4800000, guid: e486f2f8fb3ed39479843758df4b31fd, type: 3}

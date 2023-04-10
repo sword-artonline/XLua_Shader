@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using XLua;
 
 namespace MyFluid
@@ -84,6 +85,15 @@ namespace MyFluid
 
         void Start()
         {
+            LoadResourceFromAB();
+
+            ApplyLuaScriptConfig();
+
+            InitRenderTexture();
+        }
+
+        void InitRenderTexture()
+        {
             _shaderMaterial = new Material(_shader);
 
             VFB.Velocity1 = AllocateBufferForRT(RenderTextureFormat.RGHalf);
@@ -96,6 +106,7 @@ namespace MyFluid
             _colorRT2 = AllocateBufferForRT(RenderTextureFormat.ARGBHalf, Screen.width, Screen.height);
 
             Graphics.Blit(_init, _colorRT1);
+
         }
 
         void ApplyLuaScriptConfig()
@@ -113,10 +124,21 @@ namespace MyFluid
 #endif
         }
 
+        void LoadResourceFromAB()
+        {
+            AssetBundle file = AssetBundle.LoadFromFile(Config.ABPath + "/pic_unity");
+            var sp = file.LoadAsset<Texture2D>("Img_unity");
+            _init = sp;
+            file.Unload(false);
+        }
+
         void Update()
         {
-            ApplyLuaScriptConfig();
             UpdateFluidEffect();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SceneManager.LoadScene("", LoadSceneMode.Single);
+            }
         }
 
         private void UpdateFluidEffect()
